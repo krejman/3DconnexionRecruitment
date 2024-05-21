@@ -10,12 +10,14 @@ void ControlledClock::stop()
 }
 void ControlledClock::increment(int count)
 {
-    for(int i = 0; i < count; i++)
-        callback();
+    if(running)
+        for(int i = 0; i < count; i++)
+            callback();
 }
 void ControlledClock::increment()
 {
-    callback();
+    if (running)
+        callback();
 }
 void ControlledClock::setCallback(std::function<void()> _callback)
 {

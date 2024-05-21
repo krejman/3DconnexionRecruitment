@@ -23,7 +23,7 @@ public:
     void setClock(std::shared_ptr<Clock>);
 private:
     std::shared_ptr<Clock> clock;
-    int currentSecond;
+    int currentSecond{0};
     TimerList timers;
     std::map<std::shared_ptr<Timer>, int> LUT;
 };

@@ -1,7 +1,7 @@
 #pragma once
 #include "Clock.hpp"
 
-class ControlledClock : Clock
+class ControlledClock : public Clock
 {
 public:
     void start();
