@@ -1,5 +1,5 @@
 #include "TimerService.hpp"
-#include <iostream>
+
 void TimerService::setClock(std::shared_ptr<Clock> _clock)
 {
     clock = std::move(_clock);
@@ -20,7 +20,6 @@ void TimerService::releaseTimer(std::shared_ptr<Timer> _timer)
 void TimerService::secondHasPassed()
 {
     currentSecond++;
-    std::cout << currentSecond;
     auto setIter = timers.begin();
     while(setIter != timers.end())
     {

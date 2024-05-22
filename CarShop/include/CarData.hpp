@@ -46,7 +46,7 @@ private:
     int price;
     int priceDropCount;
     const std::string model;
-    const static int firstTimer{30}, laterTimer{10};
+    const static int firstTimer{30}, laterTimer{10}, maxDropCount{200};
     TimerService& timerService;
     std::shared_ptr<Timer> timer;
 };
