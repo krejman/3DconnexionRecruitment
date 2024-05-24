@@ -1,8 +1,12 @@
 #include "TimerService.hpp"
+#include "CliFacade.hpp"
 #include "ControlledClock.hpp"
+#include "RealClock.hpp"
 #include <iostream>
 
-int main()
+#include <sstream>
+
+int altMain()
 {
 	TimerService timerService;
 	auto clock = std::make_shared<ControlledClock>();
@@ -14,4 +18,14 @@ int main()
 		std::cout << "dupa" << std::endl;
 		clock->increment();
 	}
+	return 0;
+}
+
+int main()
+{
+	CliFacade facade;
+	facade.run();
+	std::cout << "end of program";
+	int a;
+	std::cin >> a;
 }

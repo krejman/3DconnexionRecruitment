@@ -1,6 +1,7 @@
-#include <gtest/gtest.h>
-#include "ControlledClock.hpp"
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
+
+#include "ControlledClock.hpp"
 
 class SimpleMock
 {

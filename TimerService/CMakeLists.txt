@@ -1,6 +1,6 @@
-add_library(TimerService STATIC src/ControlledClock.cpp src/TimerService.cpp src/Timer.cpp)
+add_library(TimerService STATIC "src/ControlledClock.cpp" "src/TimerService.cpp" "src/Timer.cpp" "src/RealClock.cpp")
 target_include_directories(TimerService PUBLIC include)
-add_executable(TimerServiceTest test/TimerServiceTests.cpp)
+add_executable(TimerServiceTest "test/TimerServiceTests.cpp")
 target_include_directories(TimerServiceTest PUBLIC include)
 target_link_libraries(TimerServiceTest GTest::gtest_main GTest::gmock_main TimerService)
 include(GoogleTest)

@@ -21,14 +21,23 @@ void TimerService::secondHasPassed()
 {
     currentSecond++;
     auto setIter = timers.begin();
+    int cnt{ 0 };
     while(setIter != timers.end())
     {
-        if(setIter->first > currentSecond)
-            return;
+        if (setIter->first > currentSecond)
+            break;
+        cnt++;
         setIter->second->fire();
         LUT.erase(setIter->second);
         auto nextIter = std::next(setIter);
         timers.erase(setIter);
         setIter = nextIter;
     }
+    if (cnt and callback)
+        callback();
+}
+
+void TimerService::setCallback(std::function<void()> _callback)
+{
+    callback = _callback;
 }

@@ -21,9 +21,11 @@ public:
     void releaseTimer(std::shared_ptr<Timer>);
     void secondHasPassed();
     void setClock(std::shared_ptr<Clock>);
+    void setCallback(std::function<void()>);
 private:
     std::shared_ptr<Clock> clock;
     int currentSecond{0};
     TimerList timers;
     std::map<std::shared_ptr<Timer>, int> LUT;
+    std::function<void()> callback;
 };

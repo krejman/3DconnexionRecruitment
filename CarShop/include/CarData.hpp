@@ -9,11 +9,13 @@ enum class State
     AVAILABLE
 };
 
+std::string to_string(State state);
+
 class CarData
 {
 public:
     CarData(int _year, int _price, std::string _model, TimerService& _timerService) : year(_year), price(_price), model(_model),
-        increment(price / 1000), state(State::AVAILABLE), priceDropCount(0), timerService(_timerService)
+        increment(_price / 1000), state(State::AVAILABLE), priceDropCount(0), timerService(_timerService)
     {
         timer = std::make_shared<Timer>(firstTimer, [this]()
         {

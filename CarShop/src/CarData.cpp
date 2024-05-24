@@ -1,9 +1,12 @@
 #include "CarData.hpp"
+#include <iostream>
 
 void CarData::updatePrice()
 {
 	price -= increment;
 	priceDropCount++;
+	if (timer)
+		std::cout << "yes";
 	timer.reset();
 	if (priceDropCount >= maxDropCount)
 		return;
@@ -19,4 +22,9 @@ void CarData::sell()
 	timerService.releaseTimer(timer);
 	timer.reset();
 	state = State::SOLD;
+}
+
+std::string to_string(State state)
+{
+	return (state == State::SOLD) ? "sold" : "available";
 }

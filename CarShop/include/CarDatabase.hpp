@@ -1,10 +1,14 @@
 #include <functional>
 #include <ranges>
 #include <vector>
+#include <string>
+#include <list>
 #include "CarData.hpp"
 
 class CarDatabase
 {
+public:
+	const std::list<CarData>& getCars() const { return cars; }
 	auto getAvailableCars()
 	{
 		return cars | std::ranges::views::filter([](CarData& car){ return car.getState() == State::AVAILABLE; }); 
@@ -21,10 +25,13 @@ class CarDatabase
 	{
 		return cars | std::ranges::views::filter([year](CarData& car) { return car.getYear() >= year; });
 	}
-	auto getCarsCustomPredicate(std::function<bool(CarData&)> pred)
+	auto getCarsCustomPredicate(std::function<bool(CarData&)> pred) 
 	{
 		return cars | std::ranges::views::filter(pred);
 	}
+	void createCar(int, int, std::string&);
+	CarDatabase(TimerService& _timerService) : timerService(_timerService) { }
 private:
-	std::vector<CarData> cars;
+	std::list<CarData> cars;
+	TimerService& timerService;
 };
