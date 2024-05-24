@@ -17,11 +17,12 @@ struct setComparator{
 };
 using TimerList = std::set<std::pair<int, std::shared_ptr<Timer>>, setComparator>;
 public:
-    void registerNewTimer(std::shared_ptr<Timer>);
-    void releaseTimer(std::shared_ptr<Timer>);
+    virtual void registerNewTimer(std::shared_ptr<Timer>);
+    virtual void releaseTimer(std::shared_ptr<Timer>);
     void secondHasPassed();
     void setClock(std::shared_ptr<Clock>);
     void setCallback(std::function<void()>);
+    virtual ~TimerService() = default;
 private:
     std::shared_ptr<Clock> clock;
     int currentSecond{0};

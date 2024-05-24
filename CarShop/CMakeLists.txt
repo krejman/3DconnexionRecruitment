@@ -1,3 +1,8 @@
 add_executable(CarShop "src/CarData.cpp" "main.cpp" "src/CarDatabase.cpp" "src/CliFacade.cpp")
 target_include_directories(CarShop PRIVATE include)
 target_link_libraries(CarShop PRIVATE TimerService)
+add_executable(CarShopTest "test/CarShopTests.cpp" "src/CarData.cpp")
+target_include_directories(CarShopTest PUBLIC include)
+target_link_libraries(CarShopTest GTest::gtest_main GTest::gmock_main TimerService)
+include(GoogleTest)
+gtest_discover_tests(CarShopTest)

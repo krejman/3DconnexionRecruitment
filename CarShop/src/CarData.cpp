@@ -1,12 +1,9 @@
 #include "CarData.hpp"
-#include <iostream>
 
 void CarData::updatePrice()
 {
 	price -= increment;
 	priceDropCount++;
-	if (timer)
-		std::cout << "yes";
 	timer.reset();
 	if (priceDropCount >= maxDropCount)
 		return;
