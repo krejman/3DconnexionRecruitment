@@ -52,8 +52,8 @@ void CliFacade::controlledClockControlMenu()
 void CliFacade::printMenu() const
 {
 	std::cout << "CarShop main menu:\n0: add car for sell\n1: start day\n2: end day"
-		"\n3: show cars for sell\n4 : show sold cars raport\n5 : show all cars"
-		"\n6 : Configure app's clock\n7: Exit app\n";
+		"\n3: show cars for sell\n4: show sold cars raport\n5: show all cars"
+		"\n6: Configure app's clock\n7: Exit app\n";
 	if (not realClock)
 		std::cout << "8: Control clock\n";
 }
@@ -107,7 +107,7 @@ void CliFacade::run()
 void CliFacade::soldCarsView()
 {
 	auto soldCars = carDatabase.getSoldCars();
-	std::cout << "\nnr|status|year|price|model\n";
+	std::cout << "nr|status|year|price|model\n";
 	printCars(soldCars);
 	std::cout << "Press any key to leave this view\n";
 	std::string s;
@@ -116,7 +116,7 @@ void CliFacade::soldCarsView()
 void CliFacade::allCarsView()
 {
 	auto& soldCars = carDatabase.getCars();
-	std::cout << "\nnr|status|year|price|model\n";
+	std::cout << "nr|status|year|price|model\n";
 	printCars(soldCars);
 	std::cout << "Press any key to leave this view\n";
 	std::string s;
@@ -154,9 +154,9 @@ void CliFacade::sellingView()
 	while (true)
 	{
 		system("cls");
-		std::cout << "\nnr|status|year|price|model\n";
+		std::cout << "nr|status|year|price|model\n";
 		printCars(availableCars);
-		std::cout << "\n1: sell car\n2: leave this view\n";
+		std::cout << "1: sell car\n2: leave this view\n";
 		int choice = takeInput(1, 4);
 		if (choice == 2)
 		{
@@ -166,7 +166,7 @@ void CliFacade::sellingView()
 		if (choice == 3)
 			continue;
 		isInSellingView.store(false);
-		std::cout << "\nPlease choose car number to sell:\n";
+		std::cout << "Please choose car number to sell:\n";
 		auto it = availableCars.begin();
 		while (true)
 		{
@@ -180,7 +180,7 @@ void CliFacade::sellingView()
 			}
 			if (idx == choice)
 				break;
-			std::cout << "\nInvalid choice, type again\n";
+			std::cout << "Invalid choice, type again\n";
 		}
 		sellCar(*it);
 		std::cout << "\nSold car: ";
@@ -200,7 +200,7 @@ void CliFacade::notifyAboutUpdate()
 	std::cout << "Notify" << std::endl;
 	if (isInSellingView.load())
 	{
-		std::cout << "Car price has been updated, press 3 to refresh view" << std::endl;
+		std::cout << "\nCar price has been updated, press 3 to refresh view" << std::endl;
 	}
 }
 
@@ -218,19 +218,19 @@ void CliFacade::endDay()
 
 void CliFacade::addCar()
 {
-	std::cout << "\nAdding car to shop:\n Model: ";
+	std::cout << "Adding car to shop:\n Model: ";
 	std::string model;
 	int year, price;
 	std::cin >> model;
 	std::cout << "First Registration year: ";
-	std::cin >> year;
+	year = takeInput();
 	std::cout << "Starting price: ";
-	std::cin >> price;
+	price = takeInput();
 	carDatabase.createCar(year, price, model);
 	std::cout << std::endl;
 }
 
-int CliFacade::takeInput(int lower, int upper)
+int CliFacade::takeInput(int lower = INT_MIN, int upper = INT_MAX)
 {
 	int choice;
 	while (true)
