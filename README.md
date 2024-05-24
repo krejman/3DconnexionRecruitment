@@ -1,35 +1,3 @@
-Struktura projektu:
+Recrutation task.
 
-CliFacade
-
-
-
-CarDatabase
-int nextId;
-map<int, CarData> database; //pomyśleć jak zaznaczyć zmianę stanu z dostępnego na sold
-
-
-CarData
-int year, price, increment;
-int priceDropCount;
-std::string model;
-static int firstTimer, laterTimer;
-TimerService& timerService;
-
-void updatePrice();
-
-
-TimerService
-void registerNewTimer();
-void secondPassed();
-
-
-Timer
-int duration;
-chrono cośtam start;
-
-
-
-Clock
-void end();
-void pause();
+Simple app for car shop. Seller can add cars for sell to database and price shall decrease with passing of time.

@@ -1,7 +1,5 @@
 #include <functional>
 #include <ranges>
-#include <vector>
-#include <string>
 #include <list>
 #include "CarData.hpp"
 

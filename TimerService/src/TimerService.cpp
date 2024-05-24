@@ -36,7 +36,6 @@ void TimerService::secondHasPassed()
     if (cnt and callback)
         callback();
 }
-
 void TimerService::setCallback(std::function<void()> _callback)
 {
     callback = _callback;

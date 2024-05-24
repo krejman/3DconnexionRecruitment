@@ -13,6 +13,7 @@ public:
 		timerService.setCallback([this](){ this->notifyAboutUpdate(); }); 
 	}
 private:
+	int takeInput(int, int);
 	void printCar(const CarData&);
 	template<class Cars>
 	void printCars(Cars);

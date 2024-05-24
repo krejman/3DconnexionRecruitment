@@ -6,14 +6,7 @@
 void CliFacade::chooseClock()
 {
 	std::cout << "Choose clock type:\n1: Controlled Clock\n2: Realtime clock" << std::endl;
-	int choice;
-	while (true)
-	{
-		std::cin >> choice;
-		if (choice == 1 or choice == 2)
-			break;
-		std::cout << "\nWrong choice, type again\n";
-	}
+	int choice = takeInput(1, 3);
 	if (choice == 1)
 	{
 		if (clock and realClock)
@@ -40,22 +33,16 @@ void CliFacade::controlledClockControlMenu()
 		return;
 	while(true)
 	{
+		system("cls");
 		std::cout << "\nChoose an operation\n1: Single increment\n2: Increment by multiple seconds\n3: Quit";
-		int choice;
-		while (true)
-		{
-			std::cin >> choice;
-			if (choice > 0 and choice < 4)
-				break;
-			std::cout << "\nWrong choice, type again\n";
-		}
+		int choice = takeInput(1, 4);
 		if (choice == 3)
 			break;
 		if (choice == 1)
 			std::dynamic_pointer_cast<ControlledClock>(clock)->increment();
 		if (choice == 2)
 		{
-			std::cout << "\nChoose how many seconds to increment\n";
+			std::cout << "Choose how many seconds to increment\n";
 			std::cin >> choice;
 			std::dynamic_pointer_cast<ControlledClock>(clock)->increment(choice);
 		}
@@ -64,7 +51,9 @@ void CliFacade::controlledClockControlMenu()
 
 void CliFacade::printMenu() const
 {
-	std::cout << "CarShop main menu:\n0: add car for sell\n1: start day\n2: end day\n3: show cars for sell\n4: show sold cars raport\n5: show all cars\n6: Configure app's clock\n7: Exit app\n";
+	std::cout << "CarShop main menu:\n0: add car for sell\n1: start day\n2: end day"
+		"\n3: show cars for sell\n4 : show sold cars raport\n5 : show all cars"
+		"\n6 : Configure app's clock\n7: Exit app\n";
 	if (not realClock)
 		std::cout << "8: Control clock\n";
 }
@@ -75,14 +64,7 @@ void CliFacade::run()
 	while (true)
 	{
 		printMenu();
-		int choice;
-		while (true)
-		{
-			std::cin >> choice;
-			if (choice >= 0 and (choice < 8 or (choice == 8 and not realClock)))
-				break;
-			std::cout << "\nWrong choice, type again\n";
-		}
+		int choice = takeInput(0, realClock ? 8 : 9);
 		switch (choice)
 		{
 			case 0:
@@ -125,20 +107,20 @@ void CliFacade::run()
 void CliFacade::soldCarsView()
 {
 	auto soldCars = carDatabase.getSoldCars();
-	std::cout << "\nnr|model|year|price|status\n";
+	std::cout << "\nnr|status|year|price|model\n";
 	printCars(soldCars);
 	std::cout << "Press any key to leave this view\n";
-	int a;
-	std::cin >> a;
+	std::string s;
+	std::cin >> s;
 }
 void CliFacade::allCarsView()
 {
 	auto& soldCars = carDatabase.getCars();
-	std::cout << "\nnr|model|year|price|status\n";
+	std::cout << "\nnr|status|year|price|model\n";
 	printCars(soldCars);
 	std::cout << "Press any key to leave this view\n";
-	int a;
-	std::cin >> a;
+	std::string s;
+	std::cin >> s;
 }
 template<class Cars>
 void CliFacade::printCars(Cars cars)
@@ -163,7 +145,7 @@ void CliFacade::printCars(const std::list<CarData>& cars)
 }
 void CliFacade::printCar(const CarData& car)
 {
-	std::cout << car.getModel() << " | " << car.getYear() << " | " << car.getPrice() << " | " << to_string(car.getState());
+	std::cout << to_string(car.getState()) << " | " << car.getYear() << " | " << car.getPrice() << " | " << car.getModel();
 }
 void CliFacade::sellingView()
 {
@@ -172,17 +154,10 @@ void CliFacade::sellingView()
 	while (true)
 	{
 		system("cls");
-		std::cout << "\nnr|model|year|price|status\n";
+		std::cout << "\nnr|status|year|price|model\n";
 		printCars(availableCars);
 		std::cout << "\n1: sell car\n2: leave this view\n";
-		int choice;
-		while (true)
-		{
-			std::cin >> choice;
-			if (choice > 0 and choice < 4)
-				break;
-			std::cout << "\nWrong choice, type again\n";
-		}
+		int choice = takeInput(1, 4);
 		if (choice == 2)
 		{
 			isInSellingView.store(false);
@@ -231,13 +206,13 @@ void CliFacade::notifyAboutUpdate()
 
 void CliFacade::startDay()
 {
-	std::cout << "\nStarting day\n";
+	std::cout << "Starting day\n";
 	clock->start();
 }
 
 void CliFacade::endDay()
 {
-	std::cout << "\nEnding day\n";
+	std::cout << "Ending day\n";
 	clock->stop();
 }
 
@@ -247,9 +222,23 @@ void CliFacade::addCar()
 	std::string model;
 	int year, price;
 	std::cin >> model;
-	std::cout << "\nFirst Registration year: ";
+	std::cout << "First Registration year: ";
 	std::cin >> year;
-	std::cout << "\nStarting price: ";
+	std::cout << "Starting price: ";
 	std::cin >> price;
 	carDatabase.createCar(year, price, model);
+	std::cout << std::endl;
+}
+
+int CliFacade::takeInput(int lower, int upper)
+{
+	int choice;
+	while (true)
+	{
+		if (std::cin >> choice and choice >= lower and choice < upper)
+				return choice;
+		std::cin.clear();
+		std::cin.ignore();
+		std::cout << "Wrong choice, type again\n";
+	}
 }
